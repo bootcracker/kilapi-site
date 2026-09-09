@@ -1,0 +1,818 @@
+<!DOCTYPE html>
+<html lang="pt">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#C8102E">
+<title>KILAPI — o fiado do bairro, confirmado pelas duas partes</title>
+<meta name="description" content="O KILAPI é o caderno do fiado no telemóvel. Registas o kilapi, o cliente confirma com o PIN dele ou por um link no WhatsApp, e a dívida fica provada dos dois lados. Funciona sem rede. 30 dias grátis.">
+<link rel="canonical" href="https://mayongi-ao.com/kilapi/">
+
+<meta property="og:type" content="website">
+<meta property="og:locale" content="pt_AO">
+<meta property="og:site_name" content="KILAPI">
+<meta property="og:title" content="KILAPI — o fiado do bairro, confirmado pelas duas partes">
+<meta property="og:description" content="Registas o kilapi, o cliente confirma ali mesmo. Sem discussão no fim do mês.">
+<meta property="og:url" content="https://mayongi-ao.com/kilapi/">
+<meta property="og:image" content="https://mayongi-ao.com/kilapi/assets/img/og-kilapi.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta name="twitter:card" content="summary_large_image">
+
+<link rel="icon" href="assets/img/favicon.ico" sizes="any">
+<link rel="icon" href="assets/img/icone-192.png" type="image/png" sizes="192x192">
+<link rel="apple-touch-icon" href="assets/img/icone-180.png">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Lexend:wght@400;500;600;800&display=swap" rel="stylesheet">
+
+<style>
+/* ═══════════════════════════ tokens ═══════════════════════════ */
+:root{
+  --ink:#16181D;
+  --ink-2:#53585F;
+  --fundo:#F1F2EE;
+  --branco:#FFFFFF;
+  --creme:#FBF7EC;
+  --vermelho:#C8102E;
+  --vermelho-fundo:#FBE9EC;
+  --verde:#166F3E;
+  --verde-fundo:#E7F4EC;
+  --ambar:#8A6300;
+  --ambar-fundo:#FBF3DC;
+  --papel:#FFFDF5;
+  --pauta:#E9E1CC;
+  --margem:#E2574B;
+  --borda:#E1E2DC;
+  --raio:18px;
+  --env:1120px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){
+  html{scroll-behavior:auto}
+  *,*::before,*::after{animation:none!important;transition:none!important}
+}
+body{
+  font-family:'Lexend',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;
+  background:var(--fundo);color:var(--ink);line-height:1.6;
+  -webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img{max-width:100%;display:block}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--ink);outline-offset:3px;border-radius:8px}
+.env{width:100%;max-width:var(--env);margin:0 auto;padding:0 20px}
+[id]{scroll-margin-top:84px}
+.saltar{position:absolute;left:-9999px;top:0;background:var(--ink);color:#fff;
+  padding:12px 18px;border-radius:0 0 10px 0;z-index:99;font-weight:600}
+.saltar:focus{left:0}
+
+/* ── marca ── */
+.marca{font-family:'Anton',sans-serif;letter-spacing:.13em;color:var(--vermelho);
+  font-size:1.15rem;line-height:1;text-decoration:none;display:inline-flex;align-items:baseline}
+a.marca{padding:12px 2px}
+.marca .vv{color:var(--ink);letter-spacing:-.06em;margin-left:3px}
+.marca--claro{color:#fff}
+.marca--claro .vv{color:var(--creme)}
+
+/* ── botões ── */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:52px;padding:0 26px;border-radius:14px;font-weight:600;font-size:1rem;
+  text-decoration:none;border:2px solid transparent;transition:transform .15s ease,box-shadow .15s ease;
+  text-align:center}
+.btn:hover{transform:translateY(-2px)}
+.btn-vermelho{background:var(--vermelho);color:#fff;box-shadow:0 6px 18px rgba(200,16,46,.28)}
+.btn-contorno{border-color:var(--ink);color:var(--ink);background:transparent}
+.btn-contorno--claro{border-color:rgba(255,255,255,.55);color:#fff}
+.btn-verde{background:var(--verde);color:#fff;box-shadow:0 6px 18px rgba(22,111,62,.24)}
+.btn-peq{min-height:44px;padding:0 18px;font-size:.92rem;border-radius:12px}
+
+/* ── barra de topo ── */
+.barra{position:sticky;top:0;z-index:40;background:rgba(241,242,238,.88);
+  backdrop-filter:blur(10px);border-bottom:1px solid var(--borda)}
+.barra .env{display:flex;align-items:center;justify-content:space-between;gap:14px;
+  min-height:64px}
+.barra__acoes{display:flex;align-items:center;gap:10px}
+.selo{display:inline-block;font-size:.62rem;font-weight:600;letter-spacing:.08em;
+  color:var(--ink-2);border:1px solid #D2D4CE;border-radius:99px;padding:3px 9px;
+  text-transform:uppercase;white-space:nowrap}
+.barra .selo{display:none}
+@media(min-width:560px){.barra .selo{display:inline-block}}
+
+/* ── revelação ── */
+.js .rev{opacity:0;transform:translateY(18px)}
+.js .rev.on{opacity:1;transform:none;transition:opacity .6s ease,transform .6s ease}
+@media (prefers-reduced-motion:reduce){.js .rev{opacity:1;transform:none}}
+
+/* ── secções ── */
+.sec{padding:76px 0}
+.sec--fina{padding:56px 0}
+.escuro{background:var(--ink);color:var(--creme)}
+.escuro .ink-2,.escuro p.lead{color:#B9BFC7}
+.cabeca{max-width:760px;margin-bottom:40px}
+.cabeca--centro{margin-left:auto;margin-right:auto;text-align:center}
+.etiqueta{font-size:.72rem;font-weight:600;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--vermelho);margin-bottom:12px}
+.escuro .etiqueta{color:#F08FA0}
+h1,h2,h3{line-height:1.15;font-weight:800;letter-spacing:-.015em}
+h2{font-size:clamp(1.65rem,4.4vw,2.5rem)}
+h3{font-size:1.08rem;font-weight:600;letter-spacing:0}
+.lead{font-size:clamp(1rem,2.2vw,1.12rem);color:var(--ink-2);margin-top:14px}
+
+/* ═══════════════════════════ herói ═══════════════════════════ */
+.heroi{padding:56px 0 0;overflow:hidden}
+.heroi__grelha{display:grid;gap:44px;align-items:center}
+@media(min-width:900px){
+  .heroi{padding:72px 0 0}
+  .heroi__grelha{grid-template-columns:1.05fr .95fr;gap:40px}
+}
+.heroi h1{font-size:clamp(2.1rem,6.4vw,3.6rem);margin-top:16px}
+.heroi h1 em{font-style:normal;color:var(--vermelho);
+  background:linear-gradient(transparent 62%,var(--vermelho-fundo) 62%)}
+.heroi__lead{font-size:clamp(1.02rem,2.4vw,1.2rem);color:var(--ink-2);margin-top:20px;max-width:52ch}
+.heroi__ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
+.heroi__ctas .btn{flex:1 1 auto;min-width:210px}
+.heroi__nota{display:flex;flex-wrap:wrap;gap:8px 18px;margin-top:22px;
+  font-size:.86rem;color:var(--ink-2);font-weight:500}
+.heroi__nota span{display:inline-flex;align-items:center;gap:7px}
+.heroi__nota b{color:var(--verde);font-weight:800}
+
+/* telemóvel */
+.tele{position:relative;margin:0 auto;width:min(300px,80vw)}
+.tele__corpo{border-radius:42px;background:var(--ink);padding:11px;
+  box-shadow:0 26px 60px rgba(22,24,29,.3),0 3px 10px rgba(22,24,29,.2)}
+.tele__ecra{border-radius:32px;overflow:hidden;background:var(--fundo);display:block;
+  aspect-ratio:430/932}
+.tele__ecra img{width:100%;height:100%;object-fit:cover;object-position:top center}
+.heroi__palco{position:relative;padding-bottom:56px}
+.heroi__palco::before{content:"";position:absolute;inset:auto -20% 0 -20%;height:62%;
+  background:radial-gradient(60% 100% at 50% 100%,rgba(200,16,46,.14),transparent 70%);
+  z-index:-1}
+
+/* ═══════════════════════════ o problema ═══════════════════════════ */
+.dores{display:grid;gap:16px}
+@media(min-width:760px){.dores{grid-template-columns:repeat(3,1fr)}}
+.dor{background:var(--branco);border-radius:var(--raio);padding:24px;
+  border:1px solid var(--borda)}
+.dor__ic{width:46px;height:46px;border-radius:13px;background:var(--vermelho-fundo);
+  display:grid;place-items:center;margin-bottom:16px}
+.dor__ic svg{width:23px;height:23px;stroke:var(--vermelho);fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round}
+.dor p{color:var(--ink-2);font-size:.95rem;margin-top:8px}
+
+/* caderno */
+.caderno{background:var(--papel);border-radius:var(--raio);padding:26px 22px 26px 58px;
+  position:relative;overflow:hidden;border:1px solid var(--pauta);margin-top:24px;
+  background-image:repeating-linear-gradient(var(--papel) 0 33px,var(--pauta) 33px 34px);
+  background-position:0 18px}
+.caderno::before{content:"";position:absolute;top:0;bottom:0;left:38px;width:2px;background:var(--margem)}
+.caderno p{font-family:'Anton',sans-serif;letter-spacing:.02em;font-size:clamp(1.05rem,3vw,1.35rem);
+  line-height:34px;color:var(--ink)}
+.caderno p + p{margin-top:0}
+.caderno .risc{text-decoration:line-through;text-decoration-color:var(--vermelho);
+  text-decoration-thickness:2px;color:#6A6F77}
+
+/* ═══════════════════════════ passos ═══════════════════════════ */
+.passos{display:grid;gap:34px}
+@media(min-width:860px){.passos{grid-template-columns:repeat(3,1fr);gap:26px}}
+.passo{text-align:left}
+.passo__num{font-family:'Anton',sans-serif;font-size:.95rem;letter-spacing:.1em;
+  color:var(--vermelho);display:inline-block;margin-bottom:10px}
+.passo h3{font-size:1.22rem;font-weight:800;letter-spacing:-.01em}
+.passo p{color:var(--ink-2);font-size:.95rem;margin-top:8px}
+.passo .tele{width:min(250px,72vw);margin:22px auto 0}
+@media(min-width:860px){.passo .tele{margin-top:26px}}
+.passo .tele__corpo{border-radius:34px;padding:9px;padding-bottom:0;
+  -webkit-mask-image:linear-gradient(#000 82%,transparent 99%);
+  mask-image:linear-gradient(#000 82%,transparent 99%)}
+.passo .tele__ecra{border-radius:26px 26px 0 0;aspect-ratio:430/700}
+
+/* ═══════════════════════════ métodos ═══════════════════════════ */
+.metodos{display:grid;gap:16px}
+@media(min-width:760px){.metodos{grid-template-columns:1fr 1fr}}
+.metodo{background:var(--branco);border-radius:var(--raio);padding:26px;
+  border:1px solid var(--borda);display:flex;gap:18px;align-items:flex-start}
+.metodo__ic{width:52px;height:52px;border-radius:15px;flex:none;display:grid;place-items:center}
+.metodo__ic svg{width:26px;height:26px;fill:none;stroke-width:2;stroke-linecap:round;stroke-linejoin:round}
+.ic-pin{background:var(--vermelho-fundo)} .ic-pin svg{stroke:var(--vermelho)}
+.ic-zap{background:var(--verde-fundo)} .ic-zap svg{stroke:var(--verde)}
+.metodo p{color:var(--ink-2);font-size:.95rem;margin-top:6px}
+.etiq{display:inline-block;margin-top:12px;font-size:.68rem;font-weight:700;
+  letter-spacing:.09em;text-transform:uppercase;border-radius:99px;padding:5px 11px}
+.etiq--off{background:var(--vermelho-fundo);color:var(--vermelho)}
+.etiq--net{background:var(--verde-fundo);color:var(--verde)}
+.nota-metodos{margin-top:18px;background:var(--ambar-fundo);color:var(--ambar);
+  border-radius:14px;padding:16px 18px;font-size:.92rem;font-weight:500}
+.nota-metodos b{font-weight:800}
+
+/* ═══════════════════════════ funcionalidades ═══════════════════════════ */
+.grelha{display:grid;gap:14px}
+@media(min-width:640px){.grelha{grid-template-columns:1fr 1fr}}
+@media(min-width:980px){.grelha{grid-template-columns:repeat(3,1fr)}}
+.func{background:rgba(255,255,255,.05);border:1px solid rgba(255,255,255,.12);
+  border-radius:var(--raio);padding:24px}
+.func__ic{width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.09);
+  display:grid;place-items:center;margin-bottom:15px}
+.func__ic svg{width:21px;height:21px;stroke:#F5C8D0;fill:none;stroke-width:2;
+  stroke-linecap:round;stroke-linejoin:round}
+.func h3{color:var(--creme)}
+.func p{color:#AEB6BF;font-size:.92rem;margin-top:7px}
+
+/* ═══════════════════════════ para quem ═══════════════════════════ */
+.chips{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.chip{background:var(--branco);border:1px solid var(--borda);border-radius:99px;
+  padding:10px 18px;font-weight:500;font-size:.95rem}
+
+/* ═══════════════════════════ preço ═══════════════════════════ */
+.preco{background:var(--creme);border:1px solid var(--pauta);border-radius:24px;
+  padding:34px 26px;max-width:640px;margin:0 auto;text-align:center}
+.preco__valor{font-family:'Anton',sans-serif;font-size:clamp(2.4rem,9vw,3.4rem);
+  line-height:1.05;margin:6px 0 4px}
+.preco__valor small{font-family:'Lexend',sans-serif;font-size:1rem;font-weight:600;
+  color:var(--ink-2);display:block;letter-spacing:0}
+.preco ul{list-style:none;text-align:left;max-width:380px;margin:24px auto 0;display:grid;gap:11px}
+.preco li{display:flex;gap:11px;align-items:flex-start;font-size:.95rem;color:var(--ink-2)}
+.preco li b{color:var(--ink);font-weight:600}
+.preco li svg{width:19px;height:19px;flex:none;margin-top:3px;stroke:var(--verde);
+  fill:none;stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round}
+.preco .btn{margin-top:26px;width:100%}
+.preco__pe{font-size:.83rem;color:var(--ink-2);margin-top:14px}
+
+/* ═══════════════════════════ perguntas ═══════════════════════════ */
+.faq{max-width:760px;margin:0 auto}
+.faq details{background:var(--branco);border:1px solid var(--borda);border-radius:14px;
+  margin-bottom:10px;overflow:hidden}
+.faq summary{cursor:pointer;padding:18px 52px 18px 20px;font-weight:600;position:relative;
+  list-style:none;min-height:56px;display:flex;align-items:center}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{content:"";position:absolute;right:22px;top:50%;width:10px;height:10px;
+  border-right:2.4px solid var(--ink-2);border-bottom:2.4px solid var(--ink-2);
+  transform:translateY(-70%) rotate(45deg);transition:transform .2s ease}
+.faq details[open] summary::after{transform:translateY(-30%) rotate(225deg)}
+.faq p{padding:0 20px 20px;color:var(--ink-2);font-size:.95rem}
+.faq a{color:var(--vermelho);font-weight:600}
+
+/* ═══════════════════════════ CTA final ═══════════════════════════ */
+.fecho{text-align:center;padding:80px 0}
+.fecho h2{font-size:clamp(1.9rem,5.4vw,3rem);max-width:16ch;margin:0 auto}
+.fecho .lead{margin:18px auto 0;max-width:48ch}
+.fecho__ctas{display:flex;flex-wrap:wrap;gap:12px;justify-content:center;margin-top:32px}
+.fecho__ctas .btn{min-width:230px}
+
+/* ═══════════════════════════ rodapé ═══════════════════════════ */
+.rodape{background:#0E1013;color:#9AA2AC;padding:52px 0 34px;font-size:.92rem}
+.rodape__grelha{display:grid;gap:32px}
+@media(min-width:760px){.rodape__grelha{grid-template-columns:1.4fr 1fr 1fr}}
+.rodape h3{color:#E8EAED;font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;
+  margin-bottom:14px;font-weight:700}
+.rodape ul{list-style:none;display:grid}
+.rodape a{text-decoration:none}
+.rodape a:hover{color:#fff;text-decoration:underline}
+.rodape ul a,.rodape address a,.rodape__fim a{display:inline-flex;align-items:center;min-height:40px}
+.rodape address{font-style:normal;display:grid}
+@media(max-width:759px){.rodape{padding-bottom:86px}}
+.rodape__fim{border-top:1px solid rgba(255,255,255,.1);margin-top:34px;padding-top:22px;
+  font-size:.84rem;display:flex;flex-wrap:wrap;gap:10px;justify-content:space-between}
+.rodape__marca p{margin-top:14px;max-width:38ch}
+
+/* o whatsapp flutuante vive agora no widget da Mayonginha (mayonginha/) */
+</style>
+</head>
+<body>
+
+<a class="saltar" href="#conteudo">Saltar para o conteúdo</a>
+
+<header class="barra">
+  <div class="env">
+    <a class="marca" href="#topo" aria-label="KILAPI — início">KILAPI<span class="vv" aria-hidden="true">✓✓</span></a>
+    <div class="barra__acoes">
+      <span class="selo">Beta v0.4</span>
+      <a class="btn btn-vermelho btn-peq" href="app/">Abrir a app</a>
+    </div>
+  </div>
+</header>
+
+<main id="conteudo">
+
+<!-- ═══════════════════════════ HERÓI ═══════════════════════════ -->
+<section class="heroi" id="topo">
+  <div class="env">
+    <div class="heroi__grelha">
+
+      <div>
+        <p class="etiqueta">Caderno de fiado · feito em Angola</p>
+        <h1>O kilapi do bairro, <em>confirmado</em> pelas duas partes.</h1>
+        <p class="heroi__lead">
+          Registas o que o cliente levou. Ele confirma ali mesmo — com o PIN dele
+          no teu telemóvel, ou por um link no WhatsApp. No fim do mês não há
+          discussão: está assinado dos dois lados.
+        </p>
+        <div class="heroi__ctas">
+          <a class="btn btn-vermelho" href="app/">Experimentar sem conta</a>
+          <a class="btn btn-contorno" href="app/">Criar conta do meu negócio</a>
+        </div>
+        <p class="heroi__nota">
+          <span><b>✓</b> 30 dias grátis</span>
+          <span><b>✓</b> Funciona sem rede</span>
+          <span><b>✓</b> Instala-se sem loja de apps</span>
+        </p>
+      </div>
+
+      <div class="heroi__palco">
+        <div class="tele">
+                <div class="tele__corpo">
+            <span class="tele__ecra">
+              <img src="assets/img/ecra-painel.png" width="640" height="1387" fetchpriority="high"
+                   alt="Painel do KILAPI num telemóvel: total a receber de Kz 17.000, dos quais Kz 6.000 aguardam confirmação, e a lista de clientes com o valor em dívida de cada um.">
+            </span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ O PROBLEMA ═══════════════════════════ -->
+<section class="sec">
+  <div class="env">
+    <div class="cabeca rev">
+      <p class="etiqueta">O caderno já não chega</p>
+      <h2>«Eu paguei.»<br>«Não pagaste.»</h2>
+      <p class="lead">
+        Vender fiado é o que segura a freguesia. O problema nunca foi vender —
+        é provar, três semanas depois, o que ficou por pagar.
+      </p>
+    </div>
+
+    <div class="dores">
+      <article class="dor rev">
+        <div class="dor__ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 19.5V6a2 2 0 0 1 2-2h13v16H6a2 2 0 0 1-2-2Z"/><path d="M9 3v18"/><path d="m14 9 4 4m0-4-4 4"/></svg>
+        </div>
+        <h3>O caderno perde-se</h3>
+        <p>Molha-se, rasga-se, fica esquecido em casa. E com ele vai-se a conta
+           do dinheiro que tens na rua.</p>
+      </article>
+
+      <article class="dor rev">
+        <div class="dor__ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M8 10h8M8 14h5"/><path d="M21 12a9 9 0 1 1-3.2-6.9"/><path d="M18 3v5h-5"/></svg>
+        </div>
+        <h3>Está escrito só de um lado</h3>
+        <p>A letra é tua, o valor é teu, a data é tua. Quando o cliente contesta,
+           não tens nada que ele tenha aceite.</p>
+      </article>
+
+      <article class="dor rev">
+        <div class="dor__ic" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M4 20V10M10 20V4m6 16v-7m6 7V8"/></svg>
+        </div>
+        <h3>Não sabes o total</h3>
+        <p>Somar página a página dá trabalho e fica sempre para depois. Trabalhas
+           sem saber quanto tens por receber.</p>
+      </article>
+    </div>
+
+    <div class="caderno rev" role="img"
+         aria-label="Página de caderno com apontamentos manuscritos: dois sacos de arroz oito mil, óleo e feijão quatro mil e quinhentos, e um pagamento de cinco mil rasurado com um ponto de interrogação.">
+      <p>28/08 &nbsp; 2 sacos de arroz &nbsp; 8.000</p>
+      <p>31/08 &nbsp; óleo e feijão &nbsp; 4.500</p>
+      <p class="risc">01/09 &nbsp; pagou 5.000 (?)</p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ COMO FUNCIONA ═══════════════════════════ -->
+<section class="sec" id="como-funciona" style="background:var(--branco)">
+  <div class="env">
+    <div class="cabeca cabeca--centro rev">
+      <p class="etiqueta">Como funciona</p>
+      <h2>Três toques e a dívida fica provada.</h2>
+      <p class="lead">O tempo de escrever no caderno, com a diferença de que o cliente assina.</p>
+    </div>
+
+    <div class="passos">
+
+      <article class="passo rev">
+        <span class="passo__num">PASSO 1</span>
+        <h3>Registas o kilapi</h3>
+        <p>Escolhes o cliente, marcas o valor no teclado grande e escreves o que
+           ele levou. «2 sacos de arroz.»</p>
+        <div class="tele">
+                <div class="tele__corpo">
+            <span class="tele__ecra">
+              <img src="assets/img/ecra-valor.png" width="640" height="1387" loading="lazy"
+                   alt="Ecrã de registo: valor de Kz 7.500 marcado num teclado numérico grande, com a nota «2 sacos de arroz».">
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <article class="passo rev">
+        <span class="passo__num">PASSO 2</span>
+        <h3>O cliente confirma</h3>
+        <p>Com o PIN dele, no teu telemóvel, ali no balcão. Ou por um link que
+           recebe no WhatsApp e confirma onde estiver.</p>
+        <div class="tele">
+                <div class="tele__corpo">
+            <span class="tele__ecra">
+              <img src="assets/img/ecra-metodo.png" width="640" height="1387" loading="lazy"
+                   alt="Ecrã com as três formas de fechar o registo: PIN do cliente, enviar link por WhatsApp, ou guardar sem confirmação.">
+            </span>
+          </div>
+        </div>
+      </article>
+
+      <article class="passo rev">
+        <span class="passo__num">PASSO 3</span>
+        <h3>Fica assinado</h3>
+        <p>O movimento passa a <strong>✓✓ confirmado pelas duas partes</strong> no
+           historial. Podes mandar o extracto pelo WhatsApp quando quiseres.</p>
+        <div class="tele">
+                <div class="tele__corpo">
+            <span class="tele__ecra">
+              <img src="assets/img/ecra-cliente.png" width="640" height="1387" loading="lazy"
+                   alt="Ficha de cliente com saldo em dívida de Kz 7.500 e o historial em forma de caderno, com um pagamento marcado como confirmado pelas duas partes.">
+            </span>
+          </div>
+        </div>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ CONFIRMAÇÃO ═══════════════════════════ -->
+<section class="sec">
+  <div class="env">
+    <div class="cabeca rev">
+      <p class="etiqueta">A parte que muda tudo</p>
+      <h2>Duas formas de o cliente dizer «sim, é isso».</h2>
+      <p class="lead">
+        Escolhes conforme quem está à tua frente. As duas deixam o mesmo registo.
+      </p>
+    </div>
+
+    <div class="metodos">
+      <article class="metodo rev">
+        <div class="metodo__ic ic-pin" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><rect x="4" y="10" width="16" height="11" rx="2.5"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg>
+        </div>
+        <div>
+          <h3>PIN do cliente</h3>
+          <p>Passas-lhe o telemóvel, ele marca o PIN que criou da primeira vez.
+             O ecrã fica escuro, é dele naquele momento.</p>
+          <span class="etiq etiq--off">Funciona sem rede</span>
+        </div>
+      </article>
+
+      <article class="metodo rev">
+        <div class="metodo__ic ic-zap" aria-hidden="true">
+          <svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-12.6 7.3L3 20.5l1.8-5.2A8.4 8.4 0 1 1 21 11.5Z"/></svg>
+        </div>
+        <div>
+          <h3>Link no WhatsApp</h3>
+          <p>O cliente recebe o link, abre e confirma onde estiver — em casa, no
+             trabalho. O link é válido por 72 horas.</p>
+          <span class="etiq etiq--net">Precisa de rede</span>
+        </div>
+      </article>
+    </div>
+
+    <p class="nota-metodos rev">
+      <b>E se ele não concordar?</b> Pode contestar — e isso também fica registado.
+      O que não fica é a dúvida. Enquanto não responder, o valor aparece à parte,
+      como «aguarda confirmação», e não se mistura com o que já está fechado.
+    </p>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ FUNCIONALIDADES ═══════════════════════════ -->
+<section class="sec escuro">
+  <div class="env">
+    <div class="cabeca rev">
+      <p class="etiqueta">Dentro da app</p>
+      <h2>O caderno, mas a fazer contas.</h2>
+    </div>
+
+    <div class="grelha">
+
+      <article class="func rev">
+        <div class="func__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M3 6h18M3 12h18M3 18h11"/></svg></div>
+        <h3>Total a receber sempre à vista</h3>
+        <p>Logo no topo do painel, com o que ainda aguarda confirmação contado à parte.</p>
+      </article>
+
+      <article class="func rev">
+        <div class="func__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 8-3 8h18s-3-1-3-8Z"/><path d="M13.7 21a2 2 0 0 1-3.4 0"/></svg></div>
+        <h3>Alertas de cobrança</h3>
+        <p>Marcas 7, 15 ou 30 dias e a app avisa-te de quem está parado há muito tempo.</p>
+      </article>
+
+      <article class="func rev">
+        <div class="func__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M12 2v20"/><path d="M17 6.5c0-1.9-2.2-3-5-3s-5 1.1-5 3S9 10 12 10.5s5 1.6 5 3.5-2.2 3-5 3-5-1.1-5-3"/></svg></div>
+        <h3>Troco ou saldo a favor</h3>
+        <p>Se o cliente paga acima da dívida, devolves o excesso ou guardas para abater na próxima.</p>
+      </article>
+
+      <article class="func rev">
+        <div class="func__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M21 11.5a8.4 8.4 0 0 1-12.6 7.3L3 20.5l1.8-5.2A8.4 8.4 0 1 1 21 11.5Z"/></svg></div>
+        <h3>Extracto e recibo por WhatsApp</h3>
+        <p>Mandas a conta corrente do cliente, ou o comprovativo de um pagamento, em dois toques.</p>
+      </article>
+
+      <article class="func rev">
+        <div class="func__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><path d="M2 8.8a16 16 0 0 1 20 0"/><path d="M5 12.5a11 11 0 0 1 14 0"/><path d="M8.5 16a6 6 0 0 1 7 0"/><path d="M12 20h.01"/><path d="m3 3 18 18"/></svg></div>
+        <h3>Funciona sem rede</h3>
+        <p>Registas e confirmas por PIN sem internet. Quando a rede voltar, sincroniza sozinha.</p>
+      </article>
+
+      <article class="func rev">
+        <div class="func__ic" aria-hidden="true"><svg viewBox="0 0 24 24"><rect x="6" y="2" width="12" height="20" rx="3"/><path d="M11 18h2"/><path d="M12 7v6m-2.5-2.5L12 13l2.5-2.5"/></svg></div>
+        <h3>Instala-se como aplicação</h3>
+        <p>Fica com ícone no telemóvel, sem passar por loja de apps e sem ocupar espaço.</p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ PARA QUEM ═══════════════════════════ -->
+<section class="sec sec--fina">
+  <div class="env">
+    <div class="cabeca rev">
+      <p class="etiqueta">Para quem é</p>
+      <h2>Para quem vende a quem conhece.</h2>
+      <p class="lead">
+        Se tens clientes de nome e cara, e uma parte do teu dinheiro anda na rua,
+        o KILAPI foi feito para ti.
+      </p>
+    </div>
+    <div class="chips rev">
+      <span class="chip">Cantinas</span>
+      <span class="chip">Mercearias</span>
+      <span class="chip">Quiosques</span>
+      <span class="chip">Salões de beleza</span>
+      <span class="chip">Borracharias</span>
+      <span class="chip">Oficinas</span>
+      <span class="chip">Padarias</span>
+      <span class="chip">Talhos e peixarias</span>
+      <span class="chip">Farmácias de bairro</span>
+      <span class="chip">Revenda de gás</span>
+      <span class="chip">Costureiras</span>
+      <span class="chip">Distribuidores com rota fixa</span>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ PREÇO ═══════════════════════════ -->
+<section class="sec" id="preco" style="background:var(--branco)">
+  <div class="env">
+    <div class="cabeca cabeca--centro rev">
+      <p class="etiqueta">Quanto custa</p>
+      <h2>Experimenta um mês inteiro sem pagar.</h2>
+    </div>
+
+    <div class="preco rev">
+      <p class="preco__valor">30 dias<small>grátis, com todas as funções</small></p>
+      <ul>
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"/></svg>
+          <span>Sem cartão e sem compromisso — crias a conta com o teu <b>número de telefone e um PIN</b>.</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"/></svg>
+          <span>Podes espreitar já a app em <b>modo demonstração</b>, sem sequer criar conta.</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"/></svg>
+          <span>Passado o mês, falamos pelo WhatsApp e activamos a <b>assinatura do teu negócio</b>.</span>
+        </li>
+        <li>
+          <svg viewBox="0 0 24 24" aria-hidden="true"><path d="m4 12.5 5 5L20 6.5"/></svg>
+          <span>Mesmo sem assinatura activa, <b>continuas a consultar tudo o que registaste</b>.</span>
+        </li>
+      </ul>
+      <a class="btn btn-vermelho" href="app/">Começar os 30 dias</a>
+      <p class="preco__pe">
+        Dúvidas sobre preço? <a href="https://wa.me/244929078409?text=Ol%C3%A1!%20Quero%20saber%20o%20pre%C3%A7o%20do%20KILAPI."
+        target="_blank" rel="noopener" style="color:var(--verde);font-weight:600">Fala connosco no WhatsApp</a>
+        ou liga <a href="tel:+244929078409" style="font-weight:600">+244 929 078 409</a>.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ PERGUNTAS ═══════════════════════════ -->
+<section class="sec">
+  <div class="env">
+    <div class="cabeca cabeca--centro rev">
+      <p class="etiqueta">Perguntas</p>
+      <h2>O que toda a gente pergunta.</h2>
+    </div>
+
+    <div class="faq rev">
+      <details>
+        <summary>O meu cliente precisa de telemóvel bom?</summary>
+        <p>Não. A confirmação por PIN é marcada no <strong>teu</strong> telemóvel — passas-lhe
+           o aparelho e ele mete quatro dígitos. Só precisas do WhatsApp dele se quiseres
+           mandar o link de confirmação, o extracto ou o recibo.</p>
+      </details>
+
+      <details>
+        <summary>Preciso de internet para trabalhar?</summary>
+        <p>Para registar um kilapi, receber um pagamento e confirmar com o PIN do cliente,
+           não. Fica tudo guardado no telemóvel e sobe sozinho quando a rede voltar.
+           Precisas de rede para enviar links e recibos, e para sincronizar.</p>
+      </details>
+
+      <details>
+        <summary>E se eu perder o telemóvel?</summary>
+        <p>Entras noutro aparelho com o teu número e o teu PIN, e os dados voltam por
+           sincronização. É por isso que vale a pena criar conta em vez de ficar na
+           demonstração — em modo demonstração os dados existem só naquele telemóvel.</p>
+      </details>
+
+      <details>
+        <summary>O cliente pode dizer que não é verdade?</summary>
+        <p>Pode, e é para isso que a app serve. Ele confirma ou contesta, e o registo
+           guarda a resposta. Enquanto não responder, o valor fica marcado como
+           «aguarda confirmação» e aparece separado do resto.</p>
+      </details>
+
+      <details>
+        <summary>Isto substitui a factura?</summary>
+        <p>Não. O KILAPI é o registo do crédito entre ti e o teu cliente, não é um
+           documento fiscal. Se precisas de facturar com validação da AGT, o produto
+           certo é o <a href="https://buesimples.net/" target="_blank" rel="noopener">BUESIMPLES</a>.</p>
+      </details>
+
+      <details>
+        <summary>Quem está por trás disto?</summary>
+        <p>A <a href="https://mayongi-ao.com/" >Mayongi Angola, Lda</a>, empresa de tecnologia
+           sediada em Luanda. O KILAPI está em beta — está a ser usado e melhorado com
+           quem o usa. Se encontrares alguma coisa errada, diz-nos.</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════════════ FECHO ═══════════════════════════ -->
+<section class="fecho escuro">
+  <div class="env">
+    <a class="marca marca--claro" href="#topo" style="font-size:1.4rem">KILAPI<span class="vv" aria-hidden="true">✓✓</span></a>
+    <h2 style="margin-top:22px">O teu dinheiro na rua, com nome e com prova.</h2>
+    <p class="lead">Abre a app, carrega em «Experimentar sem conta» e vê como é. Leva dois minutos.</p>
+    <div class="fecho__ctas">
+      <a class="btn btn-vermelho" href="app/">Experimentar sem conta</a>
+      <a class="btn btn-contorno btn-contorno--claro" href="https://wa.me/244929078409?text=Ol%C3%A1!%20Quero%20saber%20mais%20sobre%20o%20KILAPI."
+         target="_blank" rel="noopener">Falar pelo WhatsApp</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer class="rodape">
+  <div class="env">
+    <div class="rodape__grelha">
+
+      <div class="rodape__marca">
+        <a class="marca marca--claro" href="#topo">KILAPI<span class="vv" aria-hidden="true">✓✓</span></a>
+        <p>O caderno do fiado no telemóvel, confirmado pelas duas partes.
+           Um produto da Mayongi Angola, Lda.</p>
+      </div>
+
+      <div>
+        <h3>KILAPI</h3>
+        <ul>
+          <li><a href="app/">Abrir a app</a></li>
+          <li><a href="#como-funciona">Como funciona</a></li>
+          <li><a href="#preco">Preço</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h3>Contacto</h3>
+        <address>
+          <a href="https://wa.me/244929078409" target="_blank" rel="noopener">WhatsApp +244 929 078 409</a>
+          <a href="mailto:geral@mayongi-ao.com">geral@mayongi-ao.com</a>
+          <span>Urbanização Nova Vida, Rua 54<br>Luanda, Angola</span>
+        </address>
+      </div>
+
+    </div>
+
+    <div class="rodape__fim">
+      <span>© <span id="ano">2026</span> Mayongi Angola, Lda</span>
+      <span><a href="https://mayongi-ao.com/">mayongi-ao.com</a></span>
+      <!-- Redes sociais da Mayongi. Bloco auto-suficiente: traz o seu <style>
+           e usa currentColor, porque cada rodape do ecossistema tem CSS proprio. -->
+      <div class="mayongi-social">
+        <a href="https://www.facebook.com/mayongiangola" target="_blank" rel="noopener noreferrer" aria-label="Mayongi Angola no Facebook" title="Facebook">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg>
+        </a>
+        <a href="https://www.instagram.com/mayongiangola/" target="_blank" rel="noopener noreferrer" aria-label="Mayongi Angola no Instagram" title="Instagram">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 0C8.74 0 8.333.015 7.053.072 5.775.132 4.905.333 4.14.63c-.789.306-1.459.717-2.126 1.384S.935 3.35.63 4.14C.333 4.905.131 5.775.072 7.053.012 8.333 0 8.74 0 12s.015 3.667.072 4.947c.06 1.277.261 2.148.558 2.913.306.788.717 1.459 1.384 2.126.667.666 1.336 1.079 2.126 1.384.766.296 1.636.499 2.913.558C8.333 23.988 8.74 24 12 24s3.667-.015 4.947-.072c1.277-.06 2.148-.262 2.913-.558.788-.306 1.459-.718 2.126-1.384.666-.667 1.079-1.335 1.384-2.126.296-.765.499-1.636.558-2.913.06-1.28.072-1.687.072-4.947s-.015-3.667-.072-4.947c-.06-1.277-.262-2.149-.558-2.913-.306-.789-.718-1.459-1.384-2.126C21.319 1.347 20.651.935 19.86.63c-.765-.297-1.636-.499-2.913-.558C15.667.012 15.26 0 12 0zm0 2.16c3.203 0 3.585.016 4.85.071 1.17.055 1.805.249 2.227.415.562.217.96.477 1.382.896.419.42.679.819.896 1.381.164.422.36 1.057.413 2.227.057 1.266.07 1.646.07 4.85s-.015 3.585-.074 4.85c-.061 1.17-.256 1.805-.421 2.227-.224.562-.479.96-.899 1.382-.419.419-.824.679-1.38.896-.42.164-1.065.36-2.235.413-1.274.057-1.649.07-4.859.07-3.211 0-3.586-.015-4.859-.074-1.171-.061-1.816-.256-2.236-.421-.569-.224-.96-.479-1.379-.899-.421-.419-.69-.824-.9-1.38-.165-.42-.359-1.065-.42-2.235-.045-1.26-.061-1.649-.061-4.844 0-3.196.016-3.586.061-4.861.061-1.17.255-1.814.42-2.234.21-.57.479-.96.9-1.381.419-.419.81-.689 1.379-.898.42-.166 1.051-.361 2.221-.421 1.275-.045 1.65-.06 4.859-.06l.045.03zm0 3.678c-3.405 0-6.162 2.76-6.162 6.162 0 3.405 2.76 6.162 6.162 6.162 3.405 0 6.162-2.76 6.162-6.162 0-3.405-2.76-6.162-6.162-6.162zM12 16c-2.21 0-4-1.79-4-4s1.79-4 4-4 4 1.79 4 4-1.79 4-4 4zm7.846-10.405c0 .795-.646 1.44-1.44 1.44-.795 0-1.44-.646-1.44-1.44 0-.794.646-1.439 1.44-1.439.793-.001 1.44.645 1.44 1.439z"/></svg>
+        </a>
+        <a href="https://www.linkedin.com/in/mayongi-angola-7543b8319" target="_blank" rel="noopener noreferrer" aria-label="Mayongi Angola no LinkedIn" title="LinkedIn">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        </a>
+        <a href="https://github.com/mayongi/" target="_blank" rel="noopener noreferrer" aria-label="Mayongi Angola no GitHub" title="GitHub">
+          <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 .297c-6.63 0-12 5.373-12 12 0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.042-1.61-4.042-1.61C4.422 18.07 3.633 17.7 3.633 17.7c-1.087-.744.084-.729.084-.729 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.3-5.466-1.332-5.466-5.93 0-1.31.465-2.38 1.235-3.22-.135-.303-.54-1.523.105-3.176 0 0 1.005-.322 3.3 1.23.96-.267 1.98-.399 3-.405 1.02.006 2.04.138 3 .405 2.28-1.552 3.285-1.23 3.285-1.23.645 1.653.24 2.873.12 3.176.765.84 1.23 1.91 1.23 3.22 0 4.61-2.805 5.625-5.475 5.92.42.36.81 1.096.81 2.22 0 1.606-.015 2.896-.015 3.286 0 .315.21.69.825.57C20.565 22.092 24 17.592 24 12.297c0-6.627-5.373-12-12-12"/></svg>
+        </a>
+      </div>
+      <style>
+        /* Auto-suficiente: herda a cor do rodape onde cair (currentColor), para nao
+           obrigar a mexer na folha de estilo de cada projecto. */
+        .mayongi-social { display: flex; align-items: center; gap: 0.1rem; flex-wrap: wrap; margin-left: auto; }
+        .mayongi-social a {
+          display: inline-flex; align-items: center; justify-content: center;
+          /* Alvo de toque de 34px sem engordar a barra: o icone tem 17px. */
+          width: 34px; height: 34px; border-radius: 999px;
+          color: currentColor; opacity: 0.72; text-decoration: none;
+        }
+        .mayongi-social a:hover, .mayongi-social a:focus-visible { opacity: 1; background-color: rgba(128,128,128,0.18); }
+        .mayongi-social svg { width: 17px; height: 17px; fill: currentColor; display: block; }
+        /* Rodapes sem barra final em flex: o bloco toma a linha e encosta a direita. */
+        .mayongi-social--linha { width: 100%; flex-basis: 100%; justify-content: flex-end; margin-left: 0; padding-top: 0.4rem; }
+        /* Numa coluna de contactos alinha com o texto, nao a direita. */
+        .mayongi-social--coluna { margin-left: 0; justify-content: flex-start; margin-top: 0.2rem; }
+        @media (max-width: 560px) { .mayongi-social { margin-left: 0; } }
+      </style>
+    </div>
+  </div>
+
+  <!-- Caminho de volta ao ecossistema. Sem isto, quem chega a esta landing
+       (por pesquisa, por um link, por um QR) fica sem forma de ver o resto
+       do que a Mayongi faz. -->  <div class="mayongi-voltar">
+    <a href="https://mayongi-ao.com/" aria-label="Ir para o site da Mayongi Angola">
+      <span aria-hidden="true">&#8592;</span> Mayongi Angola
+    </a>
+  </div>
+  <style>
+    /* Auto-suficiente: herda a cor do rodape onde cair, em vez de exigir
+       uma classe de cada um dos nove projectos. */
+    .mayongi-voltar {
+      text-align: center;
+      padding: 0.9rem 1rem 1.4rem;
+      font-size: 0.85rem;
+      line-height: 1.4;
+    }
+    .mayongi-voltar a {
+      color: currentColor;
+      opacity: 0.75;
+      text-decoration: none;
+      display: inline-flex;
+      align-items: center;
+      gap: 0.4rem;
+      /* Alvo de toque decente num telemovel, sem crescer visualmente. */
+      padding: 0.4rem 0.6rem;
+      border-radius: 999px;
+    }
+    .mayongi-voltar a:hover,
+    .mayongi-voltar a:focus-visible {
+      opacity: 1;
+      text-decoration: underline;
+    }
+  </style>
+</footer>
+
+<!-- Mayonginha + WhatsApp.
+     O botão do WhatsApp deixou de estar aqui: passou a ser desenhado pelo
+     widget, ao lado da Mayonginha, para os dois não se sobreporem no canto.
+     O conhecimento carrega primeiro; com defer, a ordem mantém-se. -->
+<script src="mayonginha/conhecimento.js" defer></script>
+<script src="mayonginha/mayonginha.js" defer></script>
+
+<script>
+document.documentElement.classList.add('js');
+
+/* Quem já instalou a app aponta para esta pasta: mandamos direito para a aplicação. */
+if (window.matchMedia && window.matchMedia('(display-mode: standalone)').matches
+    || window.navigator.standalone === true) {
+  window.location.replace('app/');
+}
+
+document.getElementById('ano').textContent = new Date().getFullYear();
+
+/* Revelação ao scroll */
+(function () {
+  var alvos = document.querySelectorAll('.rev');
+  if (!('IntersectionObserver' in window)) {
+    alvos.forEach(function (e) { e.classList.add('on'); });
+    return;
+  }
+  var obs = new IntersectionObserver(function (entradas) {
+    entradas.forEach(function (e) {
+      if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); }
+    });
+  }, { rootMargin: '0px 0px -8% 0px', threshold: .08 });
+  alvos.forEach(function (e) { obs.observe(e); });
+})();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,24 @@
+# Credenciais
+.env
+.env.*
+!.env.example
+config.local.*
+
+# Dependencias instalaveis
+node_modules/
+vendor/
+
+# Binarios de terceiros e instaladores
+*.exe
+*.msi
+*.zip
+
+# Estado de execucao
+*.log
+tmp/
+cache/
+
+# Sistema
+.DS_Store
+Thumbs.db
+desktop.ini
