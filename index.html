@@ -133,7 +133,7 @@ h3{font-size:1.08rem;font-weight:600;letter-spacing:0}
 .heroi__lead{font-size:clamp(1.02rem,2.4vw,1.2rem);color:var(--ink-2);margin-top:20px;max-width:52ch}
 .heroi__ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:30px}
 .heroi__ctas .btn{flex:1 1 auto;min-width:210px}
-/* selo oficial da App Store (arte da Apple, sem alterações) */
+/* selos oficiais da App Store e do Google Play (arte das lojas, sem alterações) */
 .lojas{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-top:18px}
 .lojas--centro{justify-content:center;margin-top:22px}
 .loja{display:inline-flex;border-radius:10px;transition:transform .15s ease}
@@ -292,11 +292,11 @@ h3{font-size:1.08rem;font-weight:600;letter-spacing:0}
   "@context": "https://schema.org",
   "@type": "MobileApplication",
   "name": "KILAPI – Caderno do Fiado",
-  "operatingSystem": "iOS",
+  "operatingSystem": "iOS, Android",
   "applicationCategory": "BusinessApplication",
   "url": "https://mayongi-ao.com/kilapi/",
-  "installUrl": "https://apps.apple.com/ao/app/kilapi-caderno-do-fiado/id6829530894",
-  "sameAs": ["https://apps.apple.com/ao/app/kilapi-caderno-do-fiado/id6829530894"],
+  "installUrl": ["https://apps.apple.com/ao/app/kilapi-caderno-do-fiado/id6829530894", "https://play.google.com/store/apps/details?id=ao.mayongi.kilapi"],
+  "sameAs": ["https://apps.apple.com/ao/app/kilapi-caderno-do-fiado/id6829530894", "https://play.google.com/store/apps/details?id=ao.mayongi.kilapi"],
   "inLanguage": "pt",
   "publisher": { "@type": "Organization", "name": "Mayongi Angola, Lda", "url": "https://mayongi-ao.com/" }
 }
@@ -337,12 +337,12 @@ h3{font-size:1.08rem;font-weight:600;letter-spacing:0}
         </div>
         <div class="lojas">
           <a class="loja" href="https://apps.apple.com/ao/app/kilapi-caderno-do-fiado/id6829530894" target="_blank" rel="noopener"><img src="assets/lojas/app-store.svg" alt="Descarregar o KILAPI na App Store" width="156" height="52"></a>
-          <span class="lojas__breve">Android em breve no Google Play</span>
+          <a class="loja" href="https://play.google.com/store/apps/details?id=ao.mayongi.kilapi" target="_blank" rel="noopener"><img src="assets/lojas/google-play.png" alt="KILAPI: disponível no Google Play" width="135" height="52"></a>
         </div>
         <p class="heroi__nota">
           <span><b>✓</b> 30 dias grátis</span>
           <span><b>✓</b> Funciona sem rede</span>
-          <span><b>✓</b> Na App Store ou no navegador</span>
+          <span><b>✓</b> Na App Store, no Google Play ou no navegador</span>
         </p>
       </div>
 
@@ -699,6 +699,7 @@ h3{font-size:1.08rem;font-weight:600;letter-spacing:0}
     </div>
     <div class="lojas lojas--centro">
       <a class="loja" href="https://apps.apple.com/ao/app/kilapi-caderno-do-fiado/id6829530894" target="_blank" rel="noopener"><img src="assets/lojas/app-store.svg" alt="Descarregar o KILAPI na App Store" width="156" height="52" loading="lazy"></a>
+      <a class="loja" href="https://play.google.com/store/apps/details?id=ao.mayongi.kilapi" target="_blank" rel="noopener"><img src="assets/lojas/google-play.png" alt="KILAPI: disponível no Google Play" width="135" height="52" loading="lazy"></a>
     </div>
   </div>
 </section>
@@ -814,7 +815,7 @@ h3{font-size:1.08rem;font-weight:600;letter-spacing:0}
      O botão do WhatsApp deixou de estar aqui: passou a ser desenhado pelo
      widget, ao lado da Mayonginha, para os dois não se sobreporem no canto.
      O conhecimento carrega primeiro; com defer, a ordem mantém-se. -->
-<script src="mayonginha/conhecimento.js?v=20261110" defer></script>
+<script src="mayonginha/conhecimento.js?v=20261111" defer></script>
 <script src="mayonginha/mayonginha.js" defer></script>
 
 <script>

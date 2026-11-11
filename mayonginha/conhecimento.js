@@ -154,11 +154,12 @@ window.MAYONGINHA = {
     { id: 'instalar',
       chaves: ['instalar', 'play store', 'loja de apps', 'app store', 'descarregar', 'download',
                'ocupa espaco'],
-      resposta: 'No <strong>iPhone</strong>, descarrega-se da <strong>App Store</strong> '
-              + '(«KILAPI – Caderno do Fiado»). No <strong>Android</strong>, a Google Play chega em '
-              + 'breve; até lá, abre no navegador e instala-se com <strong>ícone no telemóvel</strong>, '
-              + 'sem ocupar espaço.',
-      accoes: [ { texto: 'Abrir na App Store', href: 'https://apps.apple.com/ao/app/kilapi-caderno-do-fiado/id6829530894', externo: true } ] },
+      resposta: 'Descarrega-se da <strong>App Store</strong> no <strong>iPhone</strong> e do '
+              + '<strong>Google Play</strong> no <strong>Android</strong> («KILAPI – Caderno do Fiado»). '
+              + 'Também abre no navegador e instala-se com <strong>ícone no telemóvel</strong>, sem '
+              + 'ocupar espaço.',
+      accoes: [ { texto: 'Abrir na App Store', href: 'https://apps.apple.com/ao/app/kilapi-caderno-do-fiado/id6829530894', externo: true },
+                { texto: 'Abrir no Google Play', href: 'https://play.google.com/store/apps/details?id=ao.mayongi.kilapi', externo: true } ] },
 
     { id: 'para-quem',
       chaves: ['para quem', 'serve para', 'cantina', 'mercearia', 'quiosque', 'salao', 'borracharia',
